@@ -1,4 +1,4 @@
-package spring.bappy.services.dto;
+package spring.bappy.domain.dto;
 
 import lombok.Data;
 import spring.bappy.services.account.User;

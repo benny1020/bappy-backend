@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private ObjectId objectId;
+
     private String userId;
     private String userName;
     private String userGender;
@@ -24,5 +25,8 @@ public class User {
     private String userPastHangout;
     private String userLikeHangout;
     private String userMyHangout;
+    private int userJoinCount;
+    private int userCancelCount;
+    private int userMakeCount;
 
 }
