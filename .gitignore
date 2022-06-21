@@ -26,6 +26,9 @@ out/
 !**/src/test/**/out/
 application.properties
 firebase.json
+gradlew
+gradlew.bat
+
 
 ### NetBeans ###
 /nbproject/private/
