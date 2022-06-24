@@ -39,3 +39,7 @@ gradlew.bat
 
 ### VS Code ###
 .vscode/
+
+### database ###
+*.mwb
+*.bak
