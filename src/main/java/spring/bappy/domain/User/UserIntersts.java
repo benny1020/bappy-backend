@@ -8,6 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "user_interests")
 @Data
 public class UserIntersts {
+
+    public UserIntersts() {
+        travel = false;
+        study = false;
+        volunteer = false;
+        cook = false;
+        food = false;
+    }
     @Id
     private ObjectId userInterstsId;
 

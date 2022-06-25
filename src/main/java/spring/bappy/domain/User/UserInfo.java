@@ -11,10 +11,11 @@ public class UserInfo {
     @Id
     private ObjectId userInfoId;
 
-    private String userSnsId;
+    private String userId;
     private String userName;
-    private String userGender;
+    private int userGender;
     private String userNation;
+    private String userBirth;
 
     // --------- user_detail , personality, language, interests 주소
     private ObjectId userDetailId;

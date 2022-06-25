@@ -1,7 +1,7 @@
-package spring.bappy.domain.dto;
+package spring.bappy.domain;
 
 import lombok.Data;
-import spring.bappy.services.account.User;
+import spring.bappy.service.account.User;
 
 @Data
 public class UserRegisterDto {

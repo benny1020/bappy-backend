@@ -5,4 +5,5 @@ import spring.bappy.domain.User.UserInfo;
 
 public interface UserInfoRepository extends MongoRepository<UserInfo,String> {
 
+    public UserInfo findUserInfoByUserId(String userId);
 }

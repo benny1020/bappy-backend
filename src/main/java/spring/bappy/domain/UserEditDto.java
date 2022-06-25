@@ -1,4 +1,4 @@
-package spring.bappy.domain.dto;
+package spring.bappy.domain;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;

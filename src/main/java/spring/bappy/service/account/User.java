@@ -1,4 +1,4 @@
-package spring.bappy.services.account;
+package spring.bappy.service.account;
 
 import lombok.Data;
 import org.bson.types.ObjectId;

@@ -9,6 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "user_detail")
 @Data
 public class UserDetail {
+    public UserDetail() {
+        userUniversity = "";
+        userProfile = "";
+    }
     @Id
     private ObjectId userDetailId;
 

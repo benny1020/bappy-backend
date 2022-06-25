@@ -1,41 +1,81 @@
 package spring.bappy.controllers;
-import io.netty.handler.codec.http.HttpStatusClass;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import spring.bappy.services.account.User;
-import spring.bappy.repositories.AccountRepository;
-import spring.bappy.domain.dto.UserDto;
+import spring.bappy.controllers.response.Message;
+import spring.bappy.controllers.response.StatusEnum;
+import spring.bappy.domain.User.UserInfo;
+import spring.bappy.domain.UserDto;
+import spring.bappy.service.UserService;
+import spring.bappy.service.account.User;
+import spring.bappy.repository.AccountRepository;
+
+import javax.servlet.http.HttpServletRequest;
 
 
-import java.util.List;
-
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    private final AccountRepository accountRepository;
+    private final UserService userService;
+
+
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
+    @GetMapping("")
+    public ResponseEntity getUser() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping("/{userId}")
     public ResponseEntity getUserById(@PathVariable String userId) {
-        User user = accountRepository.findByUserId(userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        //User user = accountRepository.findByUserId(userId);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
+    @ResponseBody
     @PostMapping("")
-    public ResponseEntity createUser( UserDto userDto) {
-        accountRepository.save(userDto.toCreateUser());
-        return new ResponseEntity<>("Register Success",HttpStatus.OK);
+    public ResponseEntity createUser(UserInfo userInfo,HttpServletRequest request) {
+
+        userInfo.setUserId((String)request.getAttribute("userId"));
+
+        boolean res = userService.createUser(userInfo);
+        Message message = new Message();
+        boolean result;
+
+        if(res) {
+            message.setStatus(StatusEnum.OK);
+            message.setMessage("create user success");
+            result=true;
+        } else {
+            message.setStatus(StatusEnum.BAD_REQUEST);
+            message.setMessage("create user failed");
+            result=false;
+        }
+        message.setData(result);
+
+        return new ResponseEntity<>(message,HttpStatus.OK);
+
+
+
+
     }
 
     @PutMapping("")
     public ResponseEntity editUser(UserDto userDto) {
-        String objectId = "62a1f2f3337d9c11372d896f";
-        User user = accountRepository.findById(objectId).get();
-        userDto.toEditUser(user);
-        accountRepository.save(user);
+        //String objectId = "62a1f2f3337d9c11372d896f";
+        //User user = accountRepository.findById(objectId).get();
+        //userDto.toEditUser(user);
+        //accountRepository.save(user);
 
         return new ResponseEntity<>("Edit Success",HttpStatus.OK);
     }
