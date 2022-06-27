@@ -1,17 +1,14 @@
 package spring.bappy.controllers;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import spring.bappy.controllers.response.Message;
 import spring.bappy.controllers.response.StatusEnum;
+import spring.bappy.domain.DTO.UserDto;
+import spring.bappy.domain.User.UserDetail;
 import spring.bappy.domain.User.UserInfo;
-import spring.bappy.domain.UserDto;
 import spring.bappy.service.UserService;
-import spring.bappy.service.account.User;
-import spring.bappy.repository.AccountRepository;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,22 +43,25 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity createUser(UserInfo userInfo,HttpServletRequest request) {
 
-        userInfo.setUserId((String)request.getAttribute("userId"));
 
+        String userId = (String)request.getAttribute("userId");
+        userInfo.setUserId(userId);
         boolean res = userService.createUser(userInfo);
+        UserDto userDto = userService.getUserDto(userId);
         Message message = new Message();
-        boolean result;
+
 
         if(res) {
             message.setStatus(StatusEnum.OK);
             message.setMessage("create user success");
-            result=true;
+            userDto.setUserState("normal");
+
         } else {
             message.setStatus(StatusEnum.BAD_REQUEST);
             message.setMessage("create user failed");
-            result=false;
+            userDto.setUserState("notRegistered");
         }
-        message.setData(result);
+        message.setData(userDto);
 
         return new ResponseEntity<>(message,HttpStatus.OK);
 
@@ -71,13 +71,33 @@ public class UserController {
     }
 
     @PutMapping("")
-    public ResponseEntity editUser(UserDto userDto) {
-        //String objectId = "62a1f2f3337d9c11372d896f";
-        //User user = accountRepository.findById(objectId).get();
-        //userDto.toEditUser(user);
-        //accountRepository.save(user);
+    public ResponseEntity editUser(UserDetail userDetail,HttpServletRequest request) {
 
-        return new ResponseEntity<>("Edit Success",HttpStatus.OK);
+        String userId = (String)request.getAttribute("userId");
+        boolean res = userService.editUser(userId,userDetail);
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        if(res) {
+            message.setData(true);
+            message.setMessage("edit success");
+        } else {
+            message.setData(false);
+            message.setMessage("edit failed");
+        }
+
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
+
+    @PutMapping("/gps")
+    public ResponseEntity setGPS(@RequestParam boolean gps, HttpServletRequest request) {
+        String userId = (String)request.getAttribute("userId");
+        userService.setUserGPS(userId,gps);
+        Message message = new Message();
+        message.setData(true);
+        message.setMessage("set success  " + gps);
+        message.setStatus(StatusEnum.OK);
+
+        return new ResponseEntity<>(message,HttpStatus.OK);
     }
 
 //    @PostMapping("")

@@ -10,19 +10,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserInfo {
     @Id
     private ObjectId userInfoId;
-
     private String userId;
     private String userName;
-    private int userGender;
-    private String userNation;
+    private String userGender;
+    private String userNationality;
     private String userBirth;
 
     // --------- user_detail , personality, language, interests 주소
     private ObjectId userDetailId;
-    private ObjectId userPersonalityId;
-    private ObjectId userLanguageId;
-    private ObjectId userInterestsId;
     private ObjectId userStatId;
+    private ObjectId userPlaceId;
+
 
 
 }

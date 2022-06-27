@@ -17,7 +17,7 @@ public class UserIntersts {
         food = false;
     }
     @Id
-    private ObjectId userInterstsId;
+    private ObjectId userInterestsId;
 
     private boolean travel;
     private boolean study;

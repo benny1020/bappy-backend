@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spring.bappy.controllers.response.Message;
 import spring.bappy.controllers.response.StatusEnum;
+import spring.bappy.domain.DTO.UserDto;
 import spring.bappy.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,11 +56,15 @@ public class AuthController {
         boolean res = userService.isUser(userId);
         message.setStatus(StatusEnum.OK);
         if(res) {
-            message.setData(true);
-            message.setMessage("already user");
+            UserDto userDto = userService.getUserDto(userId);
+            userDto.setUserState("normal");
+            message.setData(userDto);
+            message.setMessage("normal user");
         } else {
-            message.setMessage("new user");
-            message.setData(false);
+            UserDto userDto = new UserDto();
+            userDto.setUserState("notRegistered");
+            message.setData(userDto);
+            message.setMessage("not Registerd user");
         }
 
         return new ResponseEntity<>(message, HttpStatus.OK);
