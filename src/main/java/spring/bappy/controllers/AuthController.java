@@ -64,7 +64,7 @@ public class AuthController {
             UserDto userDto = new UserDto();
             userDto.setUserState("notRegistered");
             message.setData(userDto);
-            message.setMessage("not Registerd user");
+            message.setMessage("not Registered user");
         }
 
         return new ResponseEntity<>(message, HttpStatus.OK);
