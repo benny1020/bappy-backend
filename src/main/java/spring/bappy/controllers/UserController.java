@@ -99,6 +99,17 @@ public class UserController {
 
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
+    @GetMapping("/gps")
+    public ResponseEntity getGPS(HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        boolean gps = userService.getUserGPS(userId);
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        message.setData(gps);
+        message.setMessage("현재 gps 상태 : "+gps);
+        return  new ResponseEntity<>(message,HttpStatus.OK);
+
+    }
 
 //    @PostMapping("")
 //    public String createAccount(UserRegisterDto userRegisterDto) throws FirebaseAuthException {

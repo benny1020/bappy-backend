@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.bappy.domain.DTO.UserDto;
@@ -79,6 +80,8 @@ public class UserService {
 
     }
 
+
+
     public boolean isUser(String userId)  {
 
         UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userId);
@@ -86,6 +89,11 @@ public class UserService {
             return false;
         else
             return true;
+    }
+
+    public ObjectId getUserObjectId(String userId) {
+        UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userId);
+        return userInfo.getUserInfoId();
     }
 
     public ArrayList<Place> getUserPlaces(String userId) {
@@ -129,6 +137,7 @@ public class UserService {
         UserPlace userPlace = userPlaceRepository.findUserPlaceByUserPlaceId(userInfo.getUserPlaceId());
 
         userPlace.setUserGPS(status);
+        userPlaceRepository.save(userPlace);
         return true;
     }
 
