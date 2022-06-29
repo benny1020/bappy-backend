@@ -36,7 +36,7 @@ public class AuthController {
         message.setMessage("it is revoked token");
         message.setStatus(StatusEnum.REVOKED_ID_TOKEN);
         message.setToken(1);
-        return new ResponseEntity<>(message,HttpStatus.OK);
+        return new ResponseEntity<>(message,HttpStatus.UNAUTHORIZED);
     }
     @RequestMapping("invalid")
     public ResponseEntity invalid() {
@@ -45,7 +45,7 @@ public class AuthController {
         message.setMessage("it is invalid token");
         message.setStatus(StatusEnum.INVALID_ID_TOKEN);
         message.setToken(-1);
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
     }
     @RequestMapping("login")
     public ResponseEntity login(HttpServletRequest request) {
