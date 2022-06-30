@@ -33,10 +33,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity getUserById(@PathVariable String userId) {
-        //User user = accountRepository.findByUserId(userId);
-        return new ResponseEntity<>( HttpStatus.OK);
+    @GetMapping("/{userInfoId}")
+    public ResponseEntity getUserById(@PathVariable String userInfoId) {
+        UserDto userDto = userService.getUserDtoByObjectId(userInfoId);
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        if(userDto == null) {
+            message.setMessage("not registered user");
+            message.setData(false);
+        } else {
+            message.setMessage("normal user");
+            message.setData(userDto);
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
     @ResponseBody
@@ -47,7 +57,7 @@ public class UserController {
         String userId = (String)request.getAttribute("userId");
         userInfo.setUserId(userId);
         boolean res = userService.createUser(userInfo);
-        UserDto userDto = userService.getUserDto(userId);
+        UserDto userDto = userService.getUserDtoById(userId);
         Message message = new Message();
 
 
