@@ -47,6 +47,7 @@ public class UserService {
         UserDetail userDetail = userDetailRepository.findUserDetailByUserDetailId(userInfo.getUserDetailId());
         UserPlace userPlace = userPlaceRepository.findUserPlaceByUserPlaceId(userInfo.getUserPlaceId());
 
+        userDto.setUserNationalityCode(userInfo.getUserNationalityCode());
         userDto.setUserId(userInfo.getUserId());
         userDto.setUserInfoId(userInfo.getUserInfoId().toString());
         userDto.setUserName(userInfo.getUserName());
@@ -119,8 +120,10 @@ public class UserService {
         UserPlace userPlace = userPlaceRepository.findUserPlaceByUserPlaceId(userInfo.getUserPlaceId());
 
         ArrayList<Place> placeList = userPlace.getUserPlaceList();
-        placeList.remove(place);
-
+        for(int i=0;i<placeList.size();i++) {
+            if(placeList.get(i).getPlaceId() == place.getPlaceId())
+                placeList.remove(i);
+        }
         userPlace.setUserPlaceList(placeList);
         userPlaceRepository.save(userPlace);
         return true;

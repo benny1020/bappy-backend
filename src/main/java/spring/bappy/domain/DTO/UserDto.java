@@ -4,6 +4,7 @@ package spring.bappy.domain.DTO;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import spring.bappy.domain.Place;
 import spring.bappy.domain.User.UserDetail;
 import spring.bappy.domain.User.UserInfo;
 import spring.bappy.domain.User.UserPlace;
@@ -24,6 +25,8 @@ public class UserDto {
     private String userAffiliation;
     private String userIntroduce;
     private String userProfileImageUrl;
+    private String userNationalityCode;
+    private Place userCheckPlace;
 
     private Boolean userGPS;
     private String userState;

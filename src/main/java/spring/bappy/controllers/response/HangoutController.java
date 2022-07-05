@@ -25,8 +25,12 @@ public class HangoutController {
         String userId = (String)request.getAttribute("userId");
 
         hangoutService.createHangout(hangoutInfo, userId);
+        Message message = new Message();
+        message.setMessage("create hangout success");
+        message.setData(true);
+        message.setStatus(StatusEnum.OK);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(message,HttpStatus.OK);
     }
 
     @PutMapping("/like/{hangoutInfoId}")
@@ -35,15 +39,23 @@ public class HangoutController {
         System.out.println(hangoutInfoId);
 
         hangoutService.likeHangout(hangoutInfoId, userId);
+        Message message = new Message();
+        message.setMessage("like");
+        message.setData(true);
+        message.setStatus(StatusEnum.OK);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/noLike/{hangoutInfoId}")
     public ResponseEntity noLikeHangout(@PathVariable String hangoutInfoId, HttpServletRequest request) {
         String userId = (String)request.getAttribute("userId");
         hangoutService.noLikeHangout(hangoutInfoId, userId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        Message message = new Message();
+        message.setMessage("no like");
+        message.setData(true);
+        message.setStatus(StatusEnum.OK);
+        return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 
 

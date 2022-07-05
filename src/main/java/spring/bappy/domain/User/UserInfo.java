@@ -15,6 +15,8 @@ public class UserInfo {
     private String userGender;
     private String userNationality;
     private String userBirth;
+    private String userNationalityCode;
+    private String userCheckPlaceId;
 
     // --------- user_detail , personality, language, interests 주소
     private ObjectId userDetailId;

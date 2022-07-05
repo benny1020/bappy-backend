@@ -9,6 +9,8 @@ public class Place {
     private float placeLongitude;
     private String placeAddress;
     private String placeUrl;
+    private String placeId;
+
 
     public Place() {
         placeName = "";
@@ -16,6 +18,7 @@ public class Place {
         placeLongitude = 0.0f;
         placeAddress = "";
         placeUrl = "";
+        placeId = "";
 
     }
 
