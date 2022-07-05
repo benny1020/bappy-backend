@@ -27,8 +27,7 @@ public class TestController {
     }
     @PostMapping("")
     public String test(HttpServletRequest request) {
-        ObjectId ans = userService.getUserObjectId((String)request.getAttribute("userId"));
-        System.out.println(ans);
-        return ans.toString();
+
+        return (String)request.getAttribute("userId");
     }
 }

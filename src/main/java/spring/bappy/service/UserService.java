@@ -1,8 +1,5 @@
 package spring.bappy.service;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -43,14 +40,16 @@ public class UserService {
 
 
     }
+    public UserDto getUserDtoByObjectId(String userInfoId) {
 
-    public UserDto getUserDto(String userId) {
+        UserInfo userInfo = userInfoRepository.findUserInfoByUserInfoId(userInfoId);
         UserDto userDto = new UserDto();
-        UserInfo userInfo = userInfoRepository.findUserInfoByUserId(userId);
         UserDetail userDetail = userDetailRepository.findUserDetailByUserDetailId(userInfo.getUserDetailId());
         UserPlace userPlace = userPlaceRepository.findUserPlaceByUserPlaceId(userInfo.getUserPlaceId());
-        userDto.setUserId(userId);
-        userDto.setUserInfoId(userInfo.getUserInfoId());
+
+        userDto.setUserNationalityCode(userInfo.getUserNationalityCode());
+        userDto.setUserId(userInfo.getUserId());
+        userDto.setUserInfoId(userInfo.getUserInfoId().toString());
         userDto.setUserName(userInfo.getUserName());
         userDto.setUserNationality(userInfo.getUserNationality());
         userDto.setUserGender(userInfo.getUserGender());
@@ -62,9 +61,12 @@ public class UserService {
         userDto.setUserLanguages(userDetail.getUserLanguages());
         userDto.setUserPersonalities(userDetail.getUserPersonalities());
         userDto.setUserInterests(userDetail.getUserInterests());
-
         return userDto;
+    }
 
+    public UserDto getUserDtoById(String userId) {
+        ObjectId userInfoId = getUserObjectId(userId);
+        return this.getUserDtoByObjectId(userInfoId.toString());
 
     }
 
@@ -118,8 +120,10 @@ public class UserService {
         UserPlace userPlace = userPlaceRepository.findUserPlaceByUserPlaceId(userInfo.getUserPlaceId());
 
         ArrayList<Place> placeList = userPlace.getUserPlaceList();
-        placeList.remove(place);
-
+        for(int i=0;i<placeList.size();i++) {
+            if(placeList.get(i).getPlaceId() == place.getPlaceId())
+                placeList.remove(i);
+        }
         userPlace.setUserPlaceList(placeList);
         userPlaceRepository.save(userPlace);
         return true;

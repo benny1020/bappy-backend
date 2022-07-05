@@ -33,10 +33,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity getUserById(@PathVariable String userId) {
-        //User user = accountRepository.findByUserId(userId);
-        return new ResponseEntity<>( HttpStatus.OK);
+    @GetMapping("/{userInfoId}")
+    public ResponseEntity getUserById(@PathVariable String userInfoId) {
+        UserDto userDto = userService.getUserDtoByObjectId(userInfoId);
+        Message message = new Message();
+        message.setStatus(StatusEnum.OK);
+        if(userDto == null) {
+            message.setMessage("not registered user");
+            message.setData(false);
+        } else {
+            message.setMessage("normal user");
+            message.setData(userDto);
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
     @ResponseBody
@@ -47,7 +57,7 @@ public class UserController {
         String userId = (String)request.getAttribute("userId");
         userInfo.setUserId(userId);
         boolean res = userService.createUser(userInfo);
-        UserDto userDto = userService.getUserDto(userId);
+        UserDto userDto = userService.getUserDtoById(userId);
         Message message = new Message();
 
 
@@ -88,28 +98,7 @@ public class UserController {
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
 
-    @PutMapping("/gps")
-    public ResponseEntity setGPS(@RequestParam boolean gps, HttpServletRequest request) {
-        String userId = (String)request.getAttribute("userId");
-        userService.setUserGPS(userId,gps);
-        Message message = new Message();
-        message.setData(true);
-        message.setMessage("set success  " + gps);
-        message.setStatus(StatusEnum.OK);
 
-        return new ResponseEntity<>(message,HttpStatus.OK);
-    }
-    @GetMapping("/gps")
-    public ResponseEntity getGPS(HttpServletRequest request) {
-        String userId = (String) request.getAttribute("userId");
-        boolean gps = userService.getUserGPS(userId);
-        Message message = new Message();
-        message.setStatus(StatusEnum.OK);
-        message.setData(gps);
-        message.setMessage("현재 gps 상태 : "+gps);
-        return  new ResponseEntity<>(message,HttpStatus.OK);
-
-    }
 
 //    @PostMapping("")
 //    public String createAccount(UserRegisterDto userRegisterDto) throws FirebaseAuthException {
