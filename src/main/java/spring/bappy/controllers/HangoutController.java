@@ -23,7 +23,38 @@ public class HangoutController {
         this.hangoutService = hangoutService;
     }
 
+    @PostMapping("")
+    public ResponseEntity createHangout(HangoutInfo hangoutInfo, HttpServletRequest request, @RequestPart MultipartFile file) {
+        String userId = (String)request.getAttribute("userId");
 
+        hangoutService.createHangout(hangoutInfo, userId,file);
+        Message message = new Message();
+        message.setMessage("create hangout success");
+        message.setData(true);
+        message.setStatus(StatusEnum.OK);
+
+        return new ResponseEntity(message,HttpStatus.OK);
+    }
+
+    @PutMapping("/{hangoutInfoId}")
+    public ResponseEntity joinHangout(@PathVariable String hangoutInfoId, HttpServletRequest request, @RequestParam String action) {
+
+        String userId = (String) request.getAttribute("userId");
+
+        System.out.println("it is "+action);
+        if(action.equals("join")) {
+            hangoutService.joinHangout(hangoutInfoId, userId);
+        }else {
+            hangoutService.cancelHangout(hangoutInfoId, userId);
+        }
+        Message message = new Message();
+        message.setMessage("hangout "+ action + "success");
+        message.setData(true);
+        message.setStatus(StatusEnum.OK);
+
+        return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
+
+    }
 
     @PutMapping("/like/{hangoutInfoId}")
     public ResponseEntity likeHangout(@PathVariable String hangoutInfoId, HttpServletRequest request) {
@@ -50,18 +81,6 @@ public class HangoutController {
         return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("")
-    public ResponseEntity createHangout(HangoutInfo hangoutInfo, HttpServletRequest request, @RequestPart MultipartFile file) {
-        String userId = (String)request.getAttribute("userId");
-
-        hangoutService.createHangout(hangoutInfo, userId,file);
-        Message message = new Message();
-        message.setMessage("create hangout success");
-        message.setData(true);
-        message.setStatus(StatusEnum.OK);
-
-        return new ResponseEntity(message,HttpStatus.OK);
-    }
 
 
 }
