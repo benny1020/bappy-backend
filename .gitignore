@@ -44,3 +44,5 @@ gradlew.bat
 ### database ###
 *.mwb
 *.bak
+
+static/

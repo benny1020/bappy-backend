@@ -53,7 +53,8 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity createUser(UserInfo userInfo,HttpServletRequest request) {
 
-
+        System.out.println(userInfo.getUserBirth());
+        System.out.println(userInfo.getUserName());
         String userId = (String)request.getAttribute("userId");
         userInfo.setUserId(userId);
         boolean res = userService.createUser(userInfo);

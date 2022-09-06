@@ -15,9 +15,10 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //System.out.println("idtoken : "+request.getHeader("AUTHORIZATION"));
         String idToken = request.getHeader("AUTHORIZATION");
-        //request.setAttribute("userId","notRegister");
-        //return true;
+        request.setAttribute("userId","test");
+        return true;
         //  테스트용으로 UserId에 test 넣음
+        /* ---------
         try { // success
             boolean checkRevoked  = true;
             FirebaseToken decodedToken  = FirebaseAuth.getInstance()
@@ -37,6 +38,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         //request.setAttribute("uid","1234");
         return false;
+
+        ======= */
 
 
     }

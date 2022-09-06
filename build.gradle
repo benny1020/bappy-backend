@@ -6,16 +6,25 @@ plugins {
 
 group = 'spring'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '16'
+
+jar{
+	manifest{
+		attributes "Main-Class": "spring.bappy.BappyApplication"
+	}
+
+}
+
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
-	implementation 'com.google.firebase:firebase-admin:8.1.0'
+	implementation 'com.google.firebase:firebase-admin:8.2.0'
 
 	implementation 'org.projectlombok:lombok:1.18.24'
 	compileOnly 'org.projectlombok:lombok'
@@ -23,6 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 
 }
 
